@@ -3,12 +3,12 @@
 	"main": "src/index.ts",
 	"type": "module",
 	"scripts": {
-		"build": "tsc && tsc-alias",
-		"types": "tsc --noEmit",
-		"compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "types": "tsc --noEmit",
 		"dev": "bun run --hot src/index.ts",
-		"start": "bun run dist/src/index.js",
-		"db:push": "drizzle-kit push",
+		"build": "tsc && tsc-alias",
+		"start": "bun run build && bun run dist/src/index.js",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "bun run db:generate && drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {

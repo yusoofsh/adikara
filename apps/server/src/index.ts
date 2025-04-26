@@ -23,10 +23,10 @@ app.use(
 	}),
 );
 
-app.on(["POST", "GET"], "/api/auth/**", (c) => auth.handler(c.req.raw));
+app.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw));
 
 const handler = new RPCHandler(appRouter);
-app.use("/rpc/*", async (c, next) => {
+app.use("/*", async (c, next) => {
 	const context = await createContext({ context: c });
 	const { matched, response } = await handler.handle(c.req.raw, {
 		prefix: "/rpc",
@@ -36,21 +36,6 @@ app.use("/rpc/*", async (c, next) => {
 		return c.newResponse(response.body, response);
 	}
 	await next();
-});
-
-app.post("/ai", async (c) => {
-	const body = await c.req.json();
-	const messages = body.messages || [];
-
-	const result = streamText({
-		model: google("gemini-1.5-flash"),
-		messages,
-	});
-
-	c.header("X-Vercel-AI-Data-Stream", "v1");
-	c.header("Content-Type", "text/plain; charset=utf-8");
-
-	return stream(c, (stream) => stream.pipe(result.toDataStream()));
 });
 
 app.get("/", (c) => {
