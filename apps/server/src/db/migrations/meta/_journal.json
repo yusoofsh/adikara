@@ -15,6 +15,13 @@
       "when": 1745680186639,
       "tag": "0001_good_tempest",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745680500854,
+      "tag": "0002_goofy_black_panther",
+      "breakpoints": true
     }
   ]
 }
