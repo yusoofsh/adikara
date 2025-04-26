@@ -1,4 +1,4 @@
-# adikara
+# Adikara
 
 This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Router, Hono, tRPC, and more.
 
@@ -71,6 +71,6 @@ adikara/
 - `bun db:push`: Push schema changes to database
 - `bun db:studio`: Open database studio UI
 - `bun check`: Run Biome formatting and linting
-- `cd apps/client && bun generate-pwa-assets`: Generate PWA assets
+- `cd apps/client && bun pwa:generate`: Generate PWA assets
 - `cd apps/client && bun desktop:dev`: Start Tauri desktop app in development
 - `cd apps/client && bun desktop:build`: Build Tauri desktop app

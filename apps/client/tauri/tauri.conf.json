@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "adikara",
+        "title": "Adikara - Unified Personal Dashboard (Life OS)",
         "width": 800,
         "height": 600,
         "resizable": true,

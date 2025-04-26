@@ -14,15 +14,15 @@ export default defineConfig({
       registerType: "autoUpdate",
       manifest: {
         // Use context variables for better naming
-        name: "adikara",
+        name: "Adikara",
         short_name: "adikara",
-        description: "adikara - PWA Application",
+        description: "Adikara - Unified Personal Dashboard (Life OS)",
         theme_color: "#0c0c0c",
         // Add more manifest options as needed
       },
       pwaAssets: {
         disabled: false, // Set to false to enable asset generation
-        config: true, // Use pwa-assets.config.ts
+        config: "./pwa.config.ts", // Use pwa.config.ts
       },
       devOptions: {
         enabled: true, // Enable PWA features in dev mode

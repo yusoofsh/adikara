@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "start": "vite",
     "types": "tsc --noEmit",
-    "generate-pwa-assets": "pwa-assets-generator",
+    "pwa:generate": "pwa-assets-generator -p minimal -c pwa.config.ts",
     "tauri": "tauri",
     "desktop:dev": "tauri dev",
     "desktop:build": "tauri build"
