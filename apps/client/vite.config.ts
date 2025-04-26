@@ -8,7 +8,7 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		TanStackRouterVite({ generatedRouteTree: "./src/route-tree.gen.ts" }),
+		TanStackRouterVite({ generatedRouteTree: "./src/libs/utils/route-tree.gen.ts" }),
 		react(),
 		VitePWA({
 			registerType: "autoUpdate",

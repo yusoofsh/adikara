@@ -1,87 +1,32 @@
-import { orpc } from "@/utils/orpc"
-import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
 })
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `
-
 function HomeComponent() {
-  const health = useQuery(orpc.health.queryOptions())
-
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2 font-medium">API Status</h2>
-          <div className="flex items-center gap-2">
-            <div
-              className={`h-2 w-2 rounded-full ${health.data ? "bg-green-500" : "bg-red-500"}`}
-            />
-            <span className="text-muted-foreground text-sm">
-              {health.isLoading ?
-                "Checking..."
-              : health.data ?
-                "Connected"
-              : "Disconnected"}
-            </span>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="mb-3 font-medium">Core Features</h2>
-          <ul className="grid grid-cols-2 gap-3">
-            <FeatureItem
-              title="Type-Safe API"
-              description="End-to-end type safety with tRPC"
-            />
-            <FeatureItem
-              title="Modern React"
-              description="TanStack Router + TanStack Query"
-            />
-            <FeatureItem
-              title="Fast Backend"
-              description="Lightweight Hono server"
-            />
-            <FeatureItem
-              title="Beautiful UI"
-              description="TailwindCSS + shadcn/ui components"
-            />
-          </ul>
-        </section>
+    <div className="flex h-screen w-full flex-col items-center justify-center">
+      <div className="max-w-md text-center">
+        <h1 className="mb-4 font-bold text-4xl">Welcome to Adikara</h1>
+        <p className="mb-6 text-muted-foreground">
+          Your unified personal dashboard and life operating system
+        </p>
+        <div className="flex justify-center gap-4">
+          <a
+            href="/dashboard"
+            className="rounded-md bg-primary px-4 py-2 text-white hover:bg-primary/90"
+          >
+            Dashboard
+          </a>
+          <a
+            href="/login"
+            className="rounded-md border px-4 py-2 hover:bg-secondary/10"
+          >
+            Sign In
+          </a>
+        </div>
       </div>
     </div>
-  )
-}
-
-function FeatureItem({
-  title,
-  description,
-}: {
-  title: string
-  description: string
-}) {
-  return (
-    <li className="border-primary border-l-2 py-1 pl-3">
-      <h3 className="font-medium">{title}</h3>
-      <p className="text-muted-foreground text-sm">{description}</p>
-    </li>
   )
 }
