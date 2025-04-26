@@ -26,6 +26,7 @@ export default defineConfig({
       },
       devOptions: {
         enabled: true, // Enable PWA features in dev mode
+        resolveTempFolder: () => "./pwa", // Resolve temp folder for PWA assets
       },
     }),
   ],

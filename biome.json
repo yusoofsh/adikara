@@ -11,6 +11,7 @@
 			".turbo",
 			".vscode",
 			"tauri",
+			"pwa",
 			"dist",
 			"route-tree.gen.ts"
 		]
