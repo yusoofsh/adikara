@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { AuthCard } from "@/libs/components/auth/card"
-import { EmailInput } from "@/libs/components/auth/input"
+import { useAppForm } from "@/libs/components/interface/form"
+import { Input } from "@/libs/components/interface/input"
 import { Button } from "@/libs/components/interface/button"
 import { useState } from "react"
 
@@ -9,19 +10,19 @@ export const Route = createFileRoute("/auth/forgot-password")({
 })
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    // TODO: Implement forgot password logic (API call)
-    setTimeout(() => {
-      setSent(true)
-      setLoading(false)
-    }, 1200)
-  }
+  const form = useAppForm({
+    defaultValues: { email: "" },
+    onSubmit: async ({ value }) => {
+      setLoading(true)
+      // TODO: Implement forgot password logic (API call)
+      setTimeout(() => {
+        setSent(true)
+        setLoading(false)
+      }, 1200)
+    },
+  })
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -33,23 +34,37 @@ function ForgotPassword() {
           <div className="space-y-4 text-center">
             <p className="text-sm">
               If an account exists for{" "}
-              <span className="font-medium">{email}</span>, a password reset
-              link has been sent.
+              <span className="font-medium">{form.state.values.email}</span>, a
+              password reset link has been sent.
             </p>
             <Link to="/auth/sign-in" className="text-sm underline">
               Return to sign in
             </Link>
           </div>
-        : <form className="grid gap-4" onSubmit={handleSubmit}>
-            <EmailInput
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        : <form className="grid gap-4" onSubmit={form.handleSubmit}>
+            <form.AppField name="email">
+              {(field) => (
+                <field.FormItem>
+                  <field.FormLabel>Email</field.FormLabel>
+                  <field.FormControl>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="mail@example.com"
+                      required
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onBlur={field.handleBlur}
+                    />
+                  </field.FormControl>
+                  <field.FormMessage />
+                </field.FormItem>
+              )}
+            </form.AppField>
             <Button
               type="submit"
               className="w-full"
-              disabled={loading || !email}
+              disabled={loading || !form.state.values.email}
             >
               {loading ? "Sending..." : "Send reset link"}
             </Button>

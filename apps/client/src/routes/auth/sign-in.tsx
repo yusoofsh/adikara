@@ -1,32 +1,36 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { AuthCard } from "@/libs/components/auth/card"
-import { EmailInput, PasswordInput } from "@/libs/components/auth/input"
 import { SocialAuthButtons } from "@/libs/components/auth/social"
-import { useState } from "react"
+import { useAppForm } from "@/libs/components/interface/form"
 import { Button } from "@/libs/components/interface/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/libs/components/interface/card"
-import { Input } from "@/libs/components/interface/input"
-import { Label } from "@/libs/components/interface/label"
-import { Checkbox } from "@/libs/components/interface/checkbox"
-import { Loader2, Key } from "lucide-react"
-import { signIn, cn } from "@/libs/utils"
+import { Loader2 } from "lucide-react"
+import { signIn } from "@/libs/utils"
 
 export const Route = createFileRoute("/auth/sign-in")({
   component: SignInComponent,
 })
 
+import { useState } from "react"
+import { Input } from "@/libs/components/interface/input"
+
 function SignInComponent() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  const form = useAppForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async ({ value }) => {
+      setLoading(true)
+      await signIn.email(
+        { email: value.email, password: value.password },
+        {
+          onRequest: () => setLoading(true),
+          onResponse: () => setLoading(false),
+        }
+      )
+    },
+  })
 
   return (
     <AuthCard
@@ -43,42 +47,66 @@ function SignInComponent() {
         </>
       }
     >
-      <div className="grid gap-4">
-        <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
-
-        <PasswordInput
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+      <form.AppForm>
+        <form
+          className="grid gap-4"
+          onSubmit={form.handleSubmit}
+          autoComplete="on"
         >
-          <Link
-            to="/auth/forgot-password"
-            className="ml-auto inline-block text-sm underline"
-          >
-            Forgot your password?
-          </Link>
-        </PasswordInput>
-
-        <Button
-          type="button"
-          className="w-full"
-          disabled={loading}
-          onClick={async () => {
-            await signIn.email(
-              { email, password },
-              {
-                onRequest: () => setLoading(true),
-                onResponse: () => setLoading(false),
-              }
-            )
-          }}
-        >
-          {loading ?
-            <Loader2 size={16} className="animate-spin" />
-          : "Proceed to dashboard"}
-        </Button>
-
-        <SocialAuthButtons loading={loading} setLoading={setLoading} />
-      </div>
+          <form.AppField name="email">
+            {(field) => (
+              <field.FormItem>
+                <field.FormLabel>Email</field.FormLabel>
+                <field.FormControl>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="mail@example.com"
+                    required
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                  />
+                </field.FormControl>
+                <field.FormMessage />
+              </field.FormItem>
+            )}
+          </form.AppField>
+          <form.AppField name="password">
+            {(field) => (
+              <field.FormItem>
+                <div className="flex items-center justify-between">
+                  <field.FormLabel>Password</field.FormLabel>
+                  <Link
+                    to="/auth/forgot-password"
+                    className="text-sm underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <field.FormControl>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="password"
+                    required
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                  />
+                </field.FormControl>
+                <field.FormMessage />
+              </field.FormItem>
+            )}
+          </form.AppField>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ?
+              <Loader2 size={16} className="animate-spin" />
+            : "Proceed to dashboard"}
+          </Button>
+          <SocialAuthButtons loading={loading} setLoading={setLoading} />
+        </form>
+      </form.AppForm>
     </AuthCard>
   )
 }
