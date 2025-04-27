@@ -1,6 +1,6 @@
 import "../libs/styles/index.css"
 
-import { ORPCContext, link, type orpc } from "@/utils/orpc"
+import { ORPCContext, link, type orpc } from "@/libs/utils/orpc"
 import { createORPCClient } from "@orpc/client"
 import { createORPCReactQueryUtils } from "@orpc/react-query"
 import type { RouterClient } from "@orpc/server"
@@ -60,8 +60,8 @@ function RootComponent() {
           <Loader />
         : <Outlet />}
       </ORPCContext.Provider>
-      <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+      {/* <TanStackRouterDevtools position="bottom-left" />
+      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" /> */}
     </>
   )
 }
